@@ -35,23 +35,18 @@
 			};
 			
 		},
-		created(){
+		mounted(){
 			this.getComments();
 		},
 		methods:{
 			// 获取评论
-			getComments(){ 
-				this.$http.get("api/getcomments/"+this.id+"?pageindex="+this.pageindex)
-				.then(result =>{
-					if(result.body.status === 0){
+		getComments:async function(){ 
+				let ret = await  this.$axios.get("api/getcomments/"+this.id+"?pageindex="+this.pageindex);
 						// 如果下一页已经没有评论了，直接跳出
-						if(result.body.message.length === 0) return Toast('没有更多评论了');
+						console.log(ret);
+						if(ret.message.length === 0) return Toast('没有更多评论了');
 						//点击加载后不要把前面的数据覆盖
-						this.comments = this.comments.concat( result.body.message )
-					}else{
-						Toast('获取数据失败')
-					}
-				})
+						this.comments = this.comments.concat( ret.message );
 			},
 			// 加载更多评论
 			getMore(){
@@ -82,7 +77,7 @@
 							this.comments.unshift(cmt);
 							this.msg = "" ;
 						}else{
-							Toast('发表评论失败')
+							Toast('发表评论失败');
 						}
 					});
 			}

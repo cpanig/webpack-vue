@@ -44,25 +44,13 @@
 				lunbotuList : [] //保存轮播图的数组
 			};
 		},
-		created(){
-			this.getLunbotu();
+		mounted(){
+			this.$axios.get("api/getlunbo").then(data =>{
+				this.lunbotuList = data.message;
+			})
 		},
 		methods:{
-			getLunbotu(){
-
-				this.$http.get("api/getlunbo")
-				.then(result => {
-					
-					if(result.body.status === 0 ){
-						
-						this.lunbotuList = result.body.message
-						/* console.log(result) */
-					}else{
-						Toast('轮播图加载失败')
-					}
-				})
-				
-			}
+		
 		},
 		components:{
 			swiper

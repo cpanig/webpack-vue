@@ -35,31 +35,28 @@ export default{
 			goodslist : [],
 		}
 	},
-	created(){
+	mounted(){
 		this.getGoodsList();
 	},
 	methods:{
-		getGoodsList(){
+	getGoodsList: async function(){
 			//获取商品列表
-			this.$http.get('api/getgoods?pageindex=' +this.pageindex)
-			.then(result =>{
-				if(result.body.status === 0){
+			let ret =await this.$axios.get('api/getgoods?pageindex=' +this.pageindex);
 				
 				// 如果下一页没有商品了，提示并跳出
-				if(result.body.message.length === 0) return Toast('没有更多商品了');
+				if(ret.message.length === 0) return Toast('没有更多商品了');
 
 				//将新加载的数据拼接到上一页的数据后
 					this.moreData = true;
-					this.goodslist = this.goodslist.concat(result.body.message);
+					this.goodslist = this.goodslist.concat(ret.message);
 					
 					
-				}
-			})
+				
+			
 		},
 		getMore(){
 			this.pageindex++;
 			this.getGoodsList();
-			console.log(this.moreData);
 			
 		}
 	}

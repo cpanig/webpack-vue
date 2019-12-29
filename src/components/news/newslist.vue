@@ -26,19 +26,12 @@
 				newsList : []
 			}
 		},
-		created(){
-			this.getNewsList()
-		},
-		methods:{
-			getNewsList(){
-			this.$http.get('api/getnewslist').then(result => {
-				if(result.body.status === 0){
-					console.log(result.body)
-					this.newsList = result.body.message
-				}
+		mounted(){
+			this.$axios.get('api/getnewslist').then(data =>{
+				this.newsList = data.message;
 			})
-		}
 		},
+		
 		
 	}
 </script>

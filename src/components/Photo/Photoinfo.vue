@@ -28,38 +28,27 @@
 				list : [] //缩略图数组
 			}
 		},
-		created(){
-			this.getPhotoInfo();
-			this.getThumbs();
+		mounted(){
+			this.$axios.get('api/getimageInfo/' + this.id).then(data =>{
+				this.photoinfo = data.message[0];
+			})
+			this.$axios.get('api/getthumimages/' + this.id).then(data =>{
+				data.message.forEach(item =>{
+					item.w = 600;
+					item.h = 400;
+					item.msrc = item.src;	
+				});
+				this.list = data.message;
+			})
 		},
 		methods:{
-			getPhotoInfo(){
-				this.$http.get('api/getimageInfo/' + this.id).then(result =>{
-					if(result.body.status === 0	){
-						this.photoinfo = result.body.message[0]
-					}
-				})
-			},
-			getThumbs(){
-				this.$http.get('api/getthumimages/' + this.id).then(result =>{
-					if(result.body.status === 0){
-						console.log(result.body.message)
-						result.body.message.forEach(item =>{
-							item.w = 600;
-							item.h = 400;
-							item.msrc = item.src;	
-						});
-						this.list = result.body.message
-					}
-				})
-			},
 			handleClose () {
 			        console.log('close event')
 			      }
 			
 		},
 		components:{
-			'cmt-box' : Comment  //注册评论子组件
+			'cmt-box' : Comment  //注册评论子组件,不写会出错!
 		}
 	}
 </script>

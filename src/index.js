@@ -18,6 +18,17 @@ Vue.http.options.root = 'http://www.liulongbin.top:3005'
 //设置post表达格式组织形式
 Vue.http.options.emulateJSON = true ;
 
+//引入axios
+import axios from 'axios';
+Vue.prototype.$axios = axios;
+axios.defaults.baseURL = 'http://www.liulongbin.top:3005/';
+axios.interceptors.response.use(function(ret){
+	let data = ret.data;
+	return data;
+},function(err){
+	console.log(err);
+});
+
 
 // mui 组件
 import './lib/mui/css/mui.css'
@@ -158,7 +169,7 @@ var store = new Vuex.Store({
 			state.car.forEach(item =>{
 				if(item.selected){
 					o.count += item.count ; 
-					o.amount += item.price * o.count ; 
+					o.amount += parseInt(item.price) * parseInt(o.count)  ; 
 				}
 				
 			})

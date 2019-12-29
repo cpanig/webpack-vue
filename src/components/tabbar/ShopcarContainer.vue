@@ -59,33 +59,27 @@
 
 			}
 		},
-		created(){
-			this.getGoodsList();
+		mounted(){
+			var idArr = [] ;
+			// 1. 获取到 store中所有的商品id，然后拼接处一个 用逗号分隔的 字符串
+			// 2. 用该id数组进行数据请求，得到对应的商品信息		
+			this.$store.state.car.forEach(item => idArr.push(item.id));
+			
+			// 若没有商品，直接返回，防止出错
+			if(idArr.length <= 0) return false  ;
+			
+			this.$axios.get('api/goods/getshopcarlist/' + idArr.join(",")).then(data =>{
+				this.goodslist = data.message;
+			})
 		},
 		methods:{
-			getGoodsList(){
-				var idArr = [] ;
-
-				// 1. 获取到 store中所有的商品id，然后拼接处一个 用逗号分隔的 字符串
-				// 2. 用该id数组进行数据请求，得到对应的商品信息		
-				this.$store.state.car.forEach(item => idArr.push(item.id));
-				
-				// 若没有商品，直接返回，防止出错
-				if(idArr.length <= 0) return false  ;
-				this.$http.get('api/goods/getshopcarlist/' + idArr.join(","))
-				.then(result =>{
-					if(result.body.status === 0){
-						this.goodslist = result.body.message;
-					}
-				})
-			},
 			reMove(id,index){
 				
 				//首先把购物车页面的项给删掉
 				//然后触发一个方法，把vuex里面的数据也删掉
 				this.goodslist.splice(index,1);
 				
-				this.$store.commit("removeFormCar", id)
+				this.$store.commit("removeFormCar", id);
 			},
 			selectedChanged(id, val){
 				//每当点击开关，把最新的开关状态同步到store中

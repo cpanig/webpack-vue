@@ -15,19 +15,11 @@
 				info : []
 			}
 		},
-		created(){
-			this.getGoodsDesc();
+		mounted(){
+			this.$axios.get("api/goods/getdesc/"+this.$route.params.id).then(data =>{
+				this.info = data.message[0];
+			})
 		},
-		methods:{
-			getGoodsDesc(){
-				this.$http.get("api/goods/getdesc/"+this.$route.params.id)
-				.then(result => {
-					if(result.body.status === 0){
-						this.info = result.body.message[0]
-					}
-				})
-			}
-		}
 	}
 </script>
 

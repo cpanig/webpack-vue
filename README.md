@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # 基于 vue + webpack + （mint-ui、MUI）实现组件化开发网页demo
 
 ## 第一次提交
@@ -63,7 +62,3 @@
 	<router-link to="路由地址"></router-link>
 	而v-r是一种js方法，适合用作表单验证登录
 	this.$touter.push(路由地址)
-=======
-# webpack-vue
-my first project
->>>>>>> d0013a776a72001569357a5b1282f68ad3f0afc3

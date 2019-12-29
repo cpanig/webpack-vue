@@ -31,17 +31,10 @@
 				newsinfo : {} //新闻对象
 			}
 		},
-		created(){
-			this.getNewsInfo();
-		},
-		methods:{
-			getNewsInfo(){
-				this.$http.get('api/getnew/' + this.id).then(result =>{
-					if(result.body.status === 0 ){
-						this.newsinfo = result.body.message[0];
-					}
-				})
-			}
+		mounted(){
+			this.$axios.get('api/getnew/' + this.id).then(data =>{
+				this.newsinfo = data.message[0];
+			})
 		},
 		components:{
 			'comment-box' : Comment

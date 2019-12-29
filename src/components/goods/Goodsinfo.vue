@@ -68,32 +68,18 @@
 				selectedCount : 1  //保存用户选择的商品数量，默认用户买1件
 			}
 		},
-		created(){
-			this.getLunbotu();
-			this.getGoodsInfo();
+		mounted(){
+			this.$axios.get('api/getthumimages/'+ this.id).then(data =>{
+				data.message.forEach(item =>{
+					item.img = item.src
+				})
+				this.lunbotuList = data.message;
+			});
+			this.$axios.get('api/goods/getinfo/'+this.id).then(data =>{
+				this.goodsinfo = data.message[0];
+			})
 		},
 		methods:{
-			getLunbotu(){
-				this.$http.get('api/getthumimages/'+ this.id)
-				.then(result =>{
-					if(result.body.status === 0){
-						//需要为item里的每一项添加item.img，而数组里的值是item.src
-						result.body.message.forEach(item =>{
-							item.img = item.src
-						})
-						this.lunbotuList = result.body.message
-					}
-				})
-			},
-			getGoodsInfo(){
-				this.$http.get('api/goods/getinfo/'+this.id)
-				.then(result =>{
-					if(result.body.status === 0){
-						this.goodsinfo = result.body.message[0];
-						
-					}
-				})
-			},
 			goDesc(id){
 				this.$router.push({ name: "goodsdesc",parmas:{id}})
 			},
