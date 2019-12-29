@@ -86,7 +86,7 @@
 	而v-r是一种js方法，适合用作表单验证登录
 	this.$touter.push(路由地址)
 
-##第五、六次提交
+## 第五、六次提交
 
 ### 将vue-resource修改成axios
     1.vue已不对resource进行维护，并推荐使用axios
